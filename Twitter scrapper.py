@@ -45,17 +45,17 @@ def create_gui():
     end_date = st.date_input("Select the end date:")
     tweet_count = st.number_input("Enter the number of tweets to scrap:", value=100)
     submit_button = st.button("Scrape the data")
+
+    # converting the date in preferred formate
     start_date_str = datetime.strftime(start_date, "%Y-%m-%d")
     end_date_str = datetime.strftime(end_date + timedelta(days=1), "%Y-%m-%d")
     
-    
+    # calling the store the data function
     def upload():
         data = scrape_data (keyword,start_date_str,end_date_str,tweet_count)
         store_data_mongodb (data, keyword, start_date_str)
     # When the submit button is clicked, scrape the data and display it
     if submit_button:
-        # converting the date in preferred formate
-        
 
         # Calling the scraping function
         data = scrape_data (keyword,start_date_str,end_date_str,tweet_count)
@@ -63,6 +63,7 @@ def create_gui():
         # Display the scraped data
         st.write(data)
         
+        # Upload to database button
         if st.button("Upload to database", on_click= upload()):
             return
         # converting data as csv
