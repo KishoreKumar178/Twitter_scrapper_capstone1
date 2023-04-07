@@ -32,7 +32,7 @@ def store_data_mongodb (data, keyword, start_date):
     # creating collection with keyword
     collection = db["scraped_data"]
     Dict_data = data.to_dict("records")
-    my_doc = [{"Scraped word" : keyword, "Scraped date":start_date, "Scraped data":Dict_data}]
+    my_doc = [{"Scraped word" : keyword, "Scraped date":str(start_date), "Scraped data":Dict_data}]
     # Inserting the data
     collection.insert_many (my_doc)
     
@@ -44,28 +44,46 @@ def create_gui():
     start_date = st.date_input("Select the start date:")
     end_date = st.date_input("Select the end date:")
     tweet_count = st.number_input("Enter the number of tweets to scrap:", value=100)
-    submit_button = st.button("Scrape the data")
 
     # converting the date in preferred formate
     start_date_str = datetime.strftime(start_date, "%Y-%m-%d")
     end_date_str = datetime.strftime(end_date + timedelta(days=1), "%Y-%m-%d")
     
-    # calling the store the data function
+    # Defining calling function
+    def submit():
+        data = scrape_data (keyword,start_date_str,end_date_str,tweet_count)
+        return data
     def upload():
-        data = scrape_data (keyword,start_date_str,end_date_str,tweet_count)
-        store_data_mongodb (data, keyword, start_date_str)
-    # When the submit button is clicked, scrape the data and display it
-    if submit_button:
+        data = submit()
+        store_data_mongodb (data, keyword, start_date)
+        return st.write("Uploaded sucessfully!")
+    
+    # initiating session state
+   
+    if "button1" not in st.session_state:
+        st.session_state["button1"] = False
 
+    if "button2" not in st.session_state:
+        st.session_state["button2"] = False
+
+
+    if st.button("Submit",key="Button1"):
+        st.session_state["button1"] = not st.session_state["button1"]
+        
         # Calling the scraping function
-        data = scrape_data (keyword,start_date_str,end_date_str,tweet_count)
+        data = submit()
         
         # Display the scraped data
         st.write(data)
-        
-        # Upload to database button
-        if st.button("Upload to database", on_click= upload()):
-            return
+
+    # Uploading to databse
+    if st.session_state["button1"]:
+        if st.button("Upload to database",key="Button2"):
+            st.session_state["button2"] = not st.session_state["button2"]
+            upload()
+            
+        # calling data
+        data = submit()
         # converting data as csv
         csv = convert_data(data,"csv")
 
@@ -86,6 +104,7 @@ def create_gui():
         file_name='Twitter data.json',
         mime='text/json',
         )
+    
 # converting data 
 def convert_data(data,type):
     if type == "csv":
