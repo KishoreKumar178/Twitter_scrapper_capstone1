@@ -1,4 +1,4 @@
-# Twitter_scrapper_capstone1
+# Twitter_scrapper_capstone_1
 This is my first capstone project. I scrapped the data from twitter and displayed with the help of streamlit This program is a Twitter data scraper that scrapes tweets containing a specific keyword or hashtag within a given date range. 
 The program uses the snscrape library to scrape Twitter data and the pandas library to store the data in a DataFrame. The scraped data is then stored in a MongoDB database using the pymongo library.
 
