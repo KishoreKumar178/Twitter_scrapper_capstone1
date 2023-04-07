@@ -13,4 +13,6 @@ streamlit run twitter_data_scraper.py
 
 This will launch the GUI in your web browser. Enter the necessary information in the input fields and click the "Scrape the Data" button to start scraping. The scraped data will be displayed in a table and can be downloaded in CSV and JSON formats using the download buttons.
 
+Note: Every time after scraping or downloading  or Uploading to database we have to refresh the tab to scrape a new word
+
 Note: This program is for educational purposes only.
