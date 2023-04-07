@@ -9,7 +9,7 @@ def scrape_data(keyword,start_date,end_date,tweet_count):
     scraped_data = []
     for i, tweet in enumerate(sntwitter.TwitterSearchScraper(
         f'{keyword} since:{start_date} until:{end_date}').get_items()):
-        if i > tweet_count:
+        if i >= tweet_count:
             break
         #Adding scraped data into a empty list
         scraped_data.append([tweet.date, tweet.id, tweet.url, tweet.content,
