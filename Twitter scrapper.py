@@ -67,7 +67,7 @@ def create_gui():
         st.session_state["button2"] = False
 
 
-    if st.button("Submit",key="Button1"):
+    if st.button("Submit"):
         st.session_state["button1"] = not st.session_state["button1"]
         
         # Calling the scraping function
@@ -78,7 +78,7 @@ def create_gui():
 
     # Uploading to databse
     if st.session_state["button1"]:
-        if st.button("Upload to database",key="Button2"):
+        if st.button("Upload to database"):
             st.session_state["button2"] = not st.session_state["button2"]
             upload()
             
